@@ -1,0 +1,164 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'student/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      .title{
+      font-family: 'Poppins', sans-serif;
+      font-weight: bolder;
+      font-size: large;
+      }
+      .info2{
+      margin-left: 30px;
+      font-size: large;
+      color: green;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      }
+   </style>
+   <div class="card">
+      <div class="card-body">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="about-info">
+                  <h4 class="text-center">About Me</h4>
+                  <div class="media mt-3">
+                     {% for stu in student %}
+                     <td><a href="{{stu.user.profile_pic.url}}"><img src="{{stu.user.profile_pic.url}}" alt="Profile Pic" height="300" width="400"></a></td>
+                     <div class="media-body">
+                        <ul>
+                           <li>
+                              <span class="title-span title">Username : </span>
+                              <span class="info-span info2">{{stu.user}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Admission No. : </span>
+                              <span class="info-span info2">{{stu.addmission_no}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Full Name : </span>
+                              <span class="info-span info2">{{stu.user.first_name}} &nbsp;{{stu.user.last_name}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Mobile : </span>
+                              <span class="info-span info2">+91 {{stu.mobile}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Email : </span>
+                              <span class="info-span info2">{{stu.user.email}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Gender : </span>
+                              <span class="info-span info2">{{stu.gender}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">DOB : </span>
+                              <span class="info-span info2">{{stu.dob}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Course Name : </span>
+                              <span class="info-span info2">{{stu.course_id}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Session Year : </span>
+                              <span class="info-span info2">{{stu.session_year_id}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Father's Name : </span>
+                              <span class="info-span info2">{{stu.father_name}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Mother's Name : </span>
+                              <span class="info-span info2">{{stu.mother_name}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Parent Contact No. : </span>
+                              <span class="info-span info2">{{stu.parent_mobile_no}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Address : </span>
+                              <span class="info-span info2">{{stu.address}}</span>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+                  {% endfor %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endblock main_content %}
+   {% block custom_js %}
+   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   <script>
+      var options = {
+        series: [{{student}},{{staff}}],
+        chart: {
+          width: 380,
+          type: 'pie',
+        },
+        labels: ['Student', 'Staff'],
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+      };
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+      
+      
+      var options = {
+              series: [{{course}},{{subject}}],
+              chart: {
+              width: 380,
+              type: 'donut',
+            },
+            plotOptions: {
+              pie: {
+                startAngle: -90,
+                endAngle: 270
+              }
+            },
+            dataLabels: {
+              enabled: false
+            },
+            fill: {
+              type: 'gradient',
+            },
+            legend: {
+              formatter: function(val, opts) {
+                return val + " - " + opts.w.globals.series[opts.seriesIndex]
+              }
+            },
+            labels: ['Course', 'Subject'],
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200
+                },
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }]
+            };
+      
+            var chart = new ApexCharts(document.querySelector("#chart2"), options);
+            chart.render();
+          
+   </script>
+   {% endblock custom_js %}

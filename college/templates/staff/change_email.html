@@ -1,0 +1,57 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'staff/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <div class="page-header">
+      <div class="row align-items-center">
+         <div class="col">
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="staff_home">Dashboard</a></li>
+               <li class="breadcrumb-item active">Update Email</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   {% if messages %}
+   {% for message in messages %}
+   <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5 text-center" {% endif %} >{{message}}</p>
+   {% endfor %}
+   {% endif %}
+   {% if error %}
+   <div class="alert alert-danger text-center" role="alert">
+      {{error}}
+   </div>
+   {% endif %}
+   <section class="content">
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="card card-primary">
+                  <div class="card-header">
+                  </div>
+                  <form method="POST">
+                     {% csrf_token %}
+                     {% for st in admin %}
+                     <div class="card-body">
+                        <div class="form-group">
+                           <label>Email </label>
+                           <input required value="{{st.email}}" type="email" name="email_id" class="form-control" />
+                        </div>
+                     </div>
+                     {% endfor %}
+                     <div class="card-footer">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"> Update Email </i></button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   {% endblock main_content %}

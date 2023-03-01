@@ -1,0 +1,109 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% load static %}
+   {% load active_link_tags %}
+   <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="staff_home" class="brand-link">
+      <img src="{% static 'images/24.jpeg' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+         style="opacity: .8">
+      <span class="brand-text font-weight-light">Python World</span>
+      </a>
+      <style>
+         .nav-item{
+         font-size: 20px;
+         }
+         .drop{
+         font-size: larger;
+         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+         }
+         .info{
+         font-size: 20px;
+         }
+      </style>
+      <!-- Sidebar -->
+      <div class="sidebar">
+         <!-- Sidebar user panel (optional) -->
+         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+               {% for a in admin %}
+               {% if a.profile_pic %}
+               <img src="{{a.profile_pic.url}}" class="img-circle elevation-2" alt="User Image">
+               {% else %}
+               <img src="{% static 'images/user.png'%}" class="img-circle elevation-2" alt="User Image">
+               {% endif %}
+            </div>
+            <div class="info">
+               <a href="staff_edit_profile" class="d-block">{{a.first_name}}&nbsp; {{a.last_name}}</a>
+            </div>
+         </div>
+         {% endfor %}
+         <!-- Sidebar Menu -->
+         <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+               <!-- Add icons to the links using the .nav-icon class
+                  with font-awesome or any other icon font library -->
+               <li class="nav-item">
+                  <a href="staff_home" class="dropdown-item nav-link text-dark bg-light">
+                  <i class="nav-icon fas fa-tachometer-alt">  
+                  Dashboard
+                  </i>
+                  </a>
+               </li>
+               <li class="nav-item dropdown">
+                  <a href="" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop" data-toggle="dropdown"><i class="fas fa-user-graduate fas-fw"> Student </i></a>
+                  <div class="dropdown-menu">
+                     <a href="/staff_add_student" class="dropdown-item text-dark drop">Add Student</a>
+                     <a href="/staff_manage_student" class="dropdown-item text-dark drop">Manage Student</a>
+                  </div>
+               </li>
+               <li class="nav-item dropdown">
+                  <a href="" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop" data-toggle="dropdown"><i class="fas fa-table fas-fw"> Attendance </i></a>
+                  <div class="dropdown-menu">
+                     <a href="/staff_take_attendance" class="dropdown-item text-dark drop">Student Attendance</a>
+                     <a href="/staff_view_student_attendance" class="dropdown-item text-dark drop">View Student Attendance</a>
+                     <a href="/staff_view_attendance" class="dropdown-item text-dark drop">View Attendance</a>
+                  </div>
+               </li>
+               <li class="nav-item dropdown">
+                  <a href="" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop" data-toggle="dropdown"><i class="fas fa-clipboard-list fas-fw"> Result </i></a>
+                  <div class="dropdown-menu">
+                     <a href="/staff_add_result" class="dropdown-item text-dark drop">Add Result</a>
+                     <a href="/staff_view_result" class="dropdown-item text-dark drop">View Result</a>
+                  </div>
+               </li>
+               <li class="nav-item dropdown">
+                  <a href="" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop" data-toggle="dropdown"><i class="fas fa-file-invoice-dollar fas-fw"> Student Fees </i></a>
+                  <div class="dropdown-menu">
+                     <a href="/staff_view_student_fees" class="dropdown-item text-dark drop">Submit Student Fees</a>
+                     <a href="/staff_view_student_fees_receipt" class="dropdown-item text-dark drop">View Fees Receipt</a>
+                  </div>
+               </li>
+               <li class="nav-item dropdown">
+                  <a href="" class="nav-link dropdown-toggle text-dark bg-light" id="navbardrop" data-toggle="dropdown"><i class="fas fa-receipt fas-fw"> Student Notes </i></a>
+                  <div class="dropdown-menu">
+                     <a href="/staff_student_notes" class="dropdown-item text-dark drop">View Student Notes</a>
+                  </div>
+               </li>
+               <a href="staff_view_salary_receipt" class="dropdown-item nav-item nav-link text-dark bg-light"><i class="nav-icon fas fa-receipt"> Salary </i></a>
+               <a href="staff_notification" class="dropdown-item nav-item nav-link text-dark bg-light mt-1"><i class="nav-icon fas fa-bell"> Notification </i></a>          
+               <a href="staff_apply_leave" class="dropdown-item nav-item nav-link text-dark bg-light mt-1"><i class="nav-icon fas fa-holly-berry"> Leave </i></a>
+               <li class="nav-item dropdown">
+                  <a href="" class="nav-link dropdown-toggle text-dark bg-light mt-1" id="navbardrop" data-toggle="dropdown"><i class="fas fa-gear fas-fw"> Settings </i></a>
+                  <div class="dropdown-menu">
+                     <a href="staff_change_email" class="dropdown-item text-dark drop">Change Email</a>
+                     <a href="staff_change_password" class="dropdown-item text-dark drop">Change Password</a>
+                  </div>
+               </li>         
+               <a href="dologout" class="dropdown-item nav-item nav-link text-dark bg-light"><i class="nav-icon fas fa-power-off"> Logout</i></a>          
+            </ul>
+         </nav>
+         <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+   </aside>

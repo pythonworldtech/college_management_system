@@ -1,0 +1,188 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'staff/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      .paywithrazorpay2{
+      margin-left: 100px;
+      }
+      .remark{
+      width: 350px;
+      }
+      .fees{
+      width: 100px;
+      }
+      .due_fees{
+      width: 100px;
+      }
+      .paid_fees{
+      width: 100px;
+      }
+      .admission_fees{
+      width: 100px;
+      }
+      .admission_no{
+      width: 100px;
+      }
+      .student_name{
+      width: 130px;
+      }
+      .course{
+      width: 250px;
+      }
+   </style>
+   <div class="page-wrapper">
+   <div class="content container-fluid">
+   <div class="page-header">
+      <div class="row align-items-center">
+         <div class="col">
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="staff_home">Dashboard</a></li>
+               <li class="breadcrumb-item active">View Student Fees</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-12">
+      <div class="card card-success">
+         <div class="card-header">
+            <h3 class="card-title">Student Fees Information</h3>
+         </div>
+   <div class="card-body">
+   {% if action is None %}
+   <form method="POST" action="?action=view_student_fees">
+      {% csrf_token %}
+      <div class="row">
+         <div class="col-12 col-sm-6">
+            <div class="form-group">
+               <label>Admission No</label>
+               <input required class="form-control" name="admission_no" placeholder="Enter Admission No">
+            </div>
+         </div>
+         <div class="col-12">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"> Fetch Student</i></button>
+         </div>
+      </div>
+   </form>
+   {% else %}
+   <form method="POST" action="?action=view_fees">
+      {% csrf_token %}
+      <div class="row">
+         <div class="col-12 col-sm-6">
+            <div class="form-group">
+               <label>Admission No</label>
+               <input readonly value="{{admission_no}}" class="form-control" name="admission_no" placeholder="Enter Admission No">
+            </div>
+         </div>
+         {% if fees %}
+         <div class="col-md-12">
+            <div class="card card-danger">
+               <div class="card-header">
+                  <h3 class="card-title">Student Fees Information</h3>
+               </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table">
+                        <thead class="thead-light">
+                           <tr>
+                              <th>Admission No</th>
+                              <th>Full Name</th>
+                              <th>Course</th>
+                              <th>Admission Fees</th>
+                              <th>Paid Amount</th>
+                              <th>Due Amount</th>
+                              <th>Amount To Paid</th>
+                           </tr>
+                        </thead>
+                        {% for fees in fees %}
+                        <tr>
+   <form>
+   {% csrf_token %}
+   <td><input hidden class="student_id" name="student_id" type="text" value="{{ fees.id }}"><input class="admission_no" name="admission_no" readonly type="text" value="{{ fees.addmission_no }}"></td>
+   <td><input class="student_name" name="student_name" readonly type="text" value="{{fees.user.first_name}} &nbsp; {{fees.user.last_name}}"></td>
+   <td><input class="course" name="course" readonly type="text" value="{{ fees.course_id }}"></td>
+   <td><input class="admission_fees" name="admission_fees" readonly type="text" value="{{ fees.admission_fees }}"></td>
+   <td><input class="paid_fees" name="paid_fees" readonly type="text" value="{{ fees.paid_amount }}">
+   <td><input class="due_fees" name="due_fees" readonly type="text" value="{{ due }}">
+   <td><input class="fees" name="fees" type="text"></td></td>
+   </tr>
+   </form>
+   {% endfor %}
+   </table>
+   </div>
+   <textarea class="mt-4 remark" name="remark" placeholder="Remark"></textarea>
+   <button id="rzp-button1" type="button" class="btn btn-primary paywithrazorpay2 w-10 mt-2">Proceed For Payment</button>
+   </div>
+   </div>
+   </div>
+   </div>
+   {% else %}
+   <br>
+   <h3 class="text-capitalize" style="text-align:center;">Sorry No Fees Record Found !!!</h3>
+   <br><br>
+   <div class="text-center">
+      <img src="{% static 'images/no.svg' %}" alt=""
+         class="img-fluid img-thumbnail w-25">
+   </div>
+   {% endif %}
+   {% if receipt %}
+   <div class="row">
+      <div class="col-md-12">
+         <div class="card card-success">
+            <div class="card-header">
+               <h3 class="card-title">Fees History</h3>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <table class="table">
+                     <thead class="thead-light">
+                        <tr>
+                           <th>Sr.No.</th>
+                           <th>View Receipt</th>
+                           <th>Transaction No.</th>
+                           <th>Student Full Name</th>
+                           <th>Remark</th>
+                           <th>Paid Amount</th>
+                           <th>Payment ID</th>
+                           <th>Payment Date</th>
+                        </tr>
+                     </thead>
+                     {% for re in receipt %}
+                     <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'staff_student_fees_receipt' re.id %}" class="btn btn-info"><i class="fas fa-download"></i></a></td>
+                        <td>{{ re.transaction_no }}</td>
+                        <td>{{ re.student_id.user.first_name }} {{ re.student_id.user.last_name }}</td>
+                        <td>{{re.remark}}</td>
+                        <td>₹ {{re.paid_amount}}</td>
+                        <td>{{re.payment_id}}</td>
+                        <td>{{re.created_date}}</td>
+                     </tr>
+                     {% endfor %}
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% else %}
+   <br>
+   <h3 class="text-capitalize" style="text-align:center;">Sorry No Fees History Found !!!</h3>
+   <br><br>
+   <div class="text-center">
+      <img src="{% static 'images/no.svg' %}" alt=""
+         class="img-fluid img-thumbnail w-25">
+   </div>
+   {% endif %}
+   {% endif %}
+   {% endblock main_content %}
+   {% block scripts %}
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+   {% endblock scripts %}

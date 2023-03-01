@@ -1,0 +1,99 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'staff/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      .card{
+      width: 1180px;
+      left: -20px;
+      height: 85%;
+      top: -50px;
+      color: black;
+      }
+      .img{
+      margin-left: 500px;
+      }
+      .update{
+      margin-left: 500px;
+      }
+      pic{
+      margin-left: 500px;
+      }
+      h1{
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      color: blue;
+      }
+   </style>
+   {% if messages %}
+   {% for message in messages %}
+   <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5 text-center" {% endif %} >{{message}}</p>
+   {% endfor %}
+   {% endif %}
+   {% if error %}
+   <div class="alert alert-danger text-center" role="alert">
+      {{error}}
+   </div>
+   {% endif %}
+   <div class="container py-5">
+      <div class="card">
+         <div class="card-body">
+            <h1 class="font-weight-light text-center py-3">Edit Detail</h1>
+            <div class="row">
+               <div class="col-lg-12 col-md-6 col-sm-6">
+                  <form method="POST" action="" enctype="multipart/form-data">
+                     {% for a in staff %}
+                     {% if a.user.profile_pic %}
+                     <img src="{{a.user.profile_pic.url}}" width="80px" height="90px" class="img mr-3 rounded-circle img-thumbnail shadow-sm">
+                     <input type="file" name="pic" class="pic">
+                     {% else %}
+                     <img src="{% static 'images/user.png'%}" width="80px" height="90px" class="img mr-3 rounded-circle img-thumbnail shadow-sm">
+                     {% endif %}
+                     {% csrf_token %}
+                     <div class="form-row mt-4">
+                        <div class="form-group col-lg-6 col-md-12 col-sm-6">
+                           <label>First Name</label>
+                           <input type="text" name="fname" value="{{a.user.first_name}}" class="form-control input" placeholder="Enter First Name">
+                        </div>
+                        <div class="form-group col-lg-6 col-md-12 col-sm-6">
+                           <label>Last Name</label>
+                           <input type="text" name="lname" value="{{a.user.last_name}}" class="form-control" placeholder="Enter Last Name">
+                        </div>
+                        <div class="form-group col-lg-6 col-md-12 col-sm-6">
+                           <label>Email</label>
+                           <input disabled type="text" name="eml" value="{{a.user.email}}" class="form-control" placeholder="Enter Email Id">
+                        </div>
+                        <div class="form-group col-lg-6 col-md-12 col-sm-6">
+                           <label>Address</label>
+                           <input type="text" name="address" value="{{a.address}}" class="form-control" placeholder="Enter Address">
+                        </div>
+                        <div class="form-group col-lg-6 col-md-12 col-sm-6">
+                           <label>Date of Birth</label>
+                           <input type="text" name="dob" value="{{a.dob}}" class="form-control" placeholder="Date of Birth">
+                           <span class="badge badge-danger">Date Format YYYY-MM-DD</span>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-12 col-sm-6">
+                           <label>Mobile No.</label>
+                           <input type="text" name="mobile" value="{{a.mobile_number}}" class="form-control" placeholder="Enter Mobile No.">
+                        </div>
+                        <div class="form-group col-lg-6 col-md-12 col-sm-6">
+                           <label>Joined Date</label>
+                           <input disabled type="text" value="{{a.user.created_date}}" class="form-control" placeholder="Joined Date">
+                        </div>
+                        <div class="form-group">
+                           <button type="submit" class="btn btn-success update"><i class="fas fa-save"> Update Details </i></button>
+                        </div>
+                     </div>
+                  </form>
+                  {% endfor %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endblock main_content %}

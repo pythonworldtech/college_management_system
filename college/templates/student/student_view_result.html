@@ -1,0 +1,86 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'student/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <div class="page-header">
+      <div class="row align-items-center">
+         <div class="col">
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="student_home">Dashboard</a></li>
+               <li class="breadcrumb-item active">Student Result</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   {% if result %}
+   <section class="content">
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-12">
+               <!-- general form elements -->
+               <div class="card card-primary">
+                  <div class="card-header">
+                     <h3 class="card-title text-center">Student Result Information</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="table-responsive">
+                     <table class="table">
+                        <thead>
+                           <tr>
+                              <th>Sr.No.</th>
+                              <th>Admission No.</th>
+                              <th>Student Name</th>
+                              <th>Subject</th>
+                              <th>Session Year</th>
+                              <th>Internal Marks</th>
+                              <th>External Marks</th>
+                              <th>Total Marks</th>
+                              <th>Status</th>
+                           </tr>
+                        </thead>
+                        {% for re in result %}
+                        <tbody>
+                           <tr>
+                              <td>{{forloop.counter}}</td>
+                              <td>{{ re.student_id.addmission_no}}</td>
+                              <td>{{ re.student_id.user.first_name }} {{ re.student_id.user.last_name }}</td>
+                              <td>{{ re.subject_id.subject_name }}</td>
+                              <td>{{ re.session_id.session_start }} To {{ re.session_id.session_end }}</td>
+                              <td>{{ re.internal_marks }}</td>
+                              <td>{{ re.external_marks }}</td>
+                              <td>{{ re.total_marks }}</td>
+                              <td>
+                                 {% if re.total_marks >= 50 %}
+                                 <span class="badge badge-success">Pass</span>
+                                 {% else %}
+                                 <span class="badge badge-danger">Fail</span>
+                                 {% endif %}
+                              </td>
+                           </tr>
+                        </tbody>
+                        {% endfor %}
+                     </table>
+                  </div>
+               </div>
+               <!-- /.card -->
+            </div>
+         </div>
+      </div>
+      <!-- /.container-fluid -->
+   </section>
+   {% else %}
+   <br>
+   <h3 class="text-capitalize" style="text-align:center;">Sorry No Result Record Found !!!</h3>
+   <br><br>
+   <div class="text-center">
+      <img src="{% static 'images/no.svg' %}" alt=""
+         class="img-fluid img-thumbnail w-25">
+   </div>
+   {% endif %}
+   {% endblock main_content %}

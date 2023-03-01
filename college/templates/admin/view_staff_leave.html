@@ -1,0 +1,85 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <div class="page-header">
+      <div class="row align-items-center">
+         <div class="col">
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+               <li class="breadcrumb-item active">Leave Applied By Staff</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   {% if staff_leave %}
+   <section class="content">
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-12">
+               <!-- general form elements -->
+               <div class="card card-primary">
+                  <div class="card-header">
+                     <h3 class="card-title text-center">Staff Leave Information</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="table-responsive">
+                     <table class="table">
+                        <thead>
+                           <tr>
+                              <th>Sr.No.</th>
+                              <th>Staff ID</th>
+                              <th>Staff Name</th>
+                              <th>Leave Date</th>
+                              <th>Leave Message</th>
+                              <th>Applied On</th>
+                              <th>Action</th>
+                           </tr>
+                        </thead>
+                        {% for leave in staff_leave %}
+                        <tbody>
+                           <tr>
+                              <td>{{forloop.counter}}</td>
+                              <td>{{ leave.staff_id.user.username}}</td>
+                              <td>{{ leave.staff_id.user.first_name }} {{ leave.staff_id.user.last_name }}</td>
+                              <td>{{ leave.date }}</td>
+                              <td>{{ leave.message }}</td>
+                              <td>{{ leave.created_date }}</td>
+                              <td>
+                                 {% if leave.status == 0 %}
+                                 <a href="{% url 'admin_staff_leave_approve' leave_id=leave.id %}" class="btn btn-success">Approve</a>
+                                 <a href="{% url 'admin_staff_leave_reject' leave_id=leave.id %}" class="btn btn-danger">Reject</a>
+                                 {% elif leave.status == 1 %}
+                                 <button class="btn btn-success" disabled="disabled">Approved</button>
+                                 {% else %}
+                                 <button class="btn btn-danger" disabled="disabled">Rejected</button>
+                                 {% endif %}
+                              </td>
+                           </tr>
+                        </tbody>
+                        {% endfor %}
+                     </table>
+                  </div>
+               </div>
+               <!-- /.card -->
+            </div>
+         </div>
+      </div>
+      <!-- /.container-fluid -->
+   </section>
+   {% else %}
+   <br>
+   <h3 class="text-capitalize" style="text-align:center;">Sorry No Staff Leave Found !!!</h3>
+   <br><br>
+   <div class="text-center">
+      <img src="{% static 'images/no.svg' %}" alt=""
+         class="img-fluid img-thumbnail w-25">
+   </div>
+   {% endif %}
+   {% endblock main_content %}

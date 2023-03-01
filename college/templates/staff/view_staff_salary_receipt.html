@@ -1,0 +1,145 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'staff/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <div class="page-wrapper">
+   <div class="content container-fluid">
+   <div class="page-header">
+      <div class="row align-items-center">
+         <div class="col">
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="staff_home">Dashboard</a></li>
+               <li class="breadcrumb-item active">View Staff Salary History</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+   <div class="col-sm-12">
+   <div class="card">
+   <div class="card-body">
+      <form method="POST" action="">
+      {% csrf_token %}
+      <div class="row">
+         <div class="col-12 col-sm-6">
+            <div class="form-group">
+               <label>Transaction No</label>
+               <input required class="form-control" name="transaction_no" placeholder="Enter Transaction No">
+            </div>
+         </div>
+         <div class="col-12 col-sm-6">
+            <div class="form-group">
+               <button type="submit" class=" btn btn-primary mt-4">Search</button>
+               <a href="/staff_view_salary_receipt" class=" btn btn-warning mt-4">View All</a>
+            </div>
+         </div>
+         {% if search %}
+         <div class="col-md-12">
+            <div class="card card-success">
+               <div class="card-header">
+                  <h3 class="card-title">Staff Salary History</h3>
+               </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table">
+                        <thead class="thead-light">
+                           <tr>
+                              <th>Sr.No.</th>
+                              <th>View Receipt</th>
+                              <th>Transaction No.</th>
+                              <th>Staff Id</th>
+                              <th>Full Name</th>
+                              <th>Account No.</th>
+                              <th>IFSC Code</th>
+                              <th>Email</th>
+                              <th>Mobile No.</th>
+                              <th>Remark</th>
+                              <th>Paid Amount</th>
+                              <th>Payment ID</th>
+                              <th>Payment Date</th>
+                           </tr>
+                        </thead>
+                        {% for re in search %}
+                        <tr>
+                           <td>{{ forloop.counter }}</td>
+                           <td><a href="{% url 'staff_salary_receipt' re.id %}" class="btn btn-info"><i class="fas fa-download"></i></a></td>
+                           <td>{{ re.transaction_no }}</td>
+                           <td>{{re.staff_id.stf_id}}</td>
+                           <td>{{ re.staff_id.user.first_name }} {{ re.staff_id.user.last_name }}</td>
+                           <td>{{re.staff_id.account_no}}</td>
+                           <td>{{re.staff_id.ifsc_code}}</td>
+                           <td>{{re.staff_id.user.email}}</td>
+                           <td>{{re.staff_id.mobile_number}}</td>
+                           <td>{{re.remark}}</td>
+                           <td>₹ {{re.salary_paid}}</td>
+                           <td>{{re.payment_id}}</td>
+                           <td>{{re.created_date}}</td>
+                        </tr>
+                        {% endfor %}
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% else %}
+      <div class="col-md-12">
+         <div class="card card-success">
+            <div class="card-header">
+               <h3 class="card-title">Staff Salary History</h3>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <table class="table">
+                     <thead class="thead-light">
+                        <tr>
+                           <th>Sr.No.</th>
+                           <th>View Receipt</th>
+                           <th>Transaction No.</th>
+                           <th>Staff Id</th>
+                           <th>Full Name</th>
+                           <th>Account No.</th>
+                           <th>IFSC Code</th>
+                           <th>Email</th>
+                           <th>Mobile No.</th>
+                           <th>Remark</th>
+                           <th>Paid Amount</th>
+                           <th>Payment ID</th>
+                           <th>Payment Date</th>
+                        </tr>
+                     </thead>
+                     {% for re in receipt %}
+                     <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'staff_salary_receipt' re.id %}" class="btn btn-info"><i class="fas fa-download"></i></a></td>
+                        <td>{{ re.transaction_no }}</td>
+                        <td>{{re.staff_id.stf_id}}</td>
+                        <td>{{ re.staff_id.user.first_name }} {{ re.staff_id.user.last_name }}</td>
+                        <td>{{re.staff_id.account_no}}</td>
+                        <td>{{re.staff_id.ifsc_code}}</td>
+                        <td>{{re.staff_id.user.email}}</td>
+                        <td>{{re.staff_id.mobile_number}}</td>
+                        <td>{{re.remark}}</td>
+                        <td>₹ {{re.salary_paid}}</td>
+                        <td>{{re.payment_id}}</td>
+                        <td>{{re.created_date}}</td>
+                     </tr>
+                     {% endfor %}
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endif %}
+   {% endblock main_content %}
+   {% block scripts %}
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+   {% endblock scripts %}

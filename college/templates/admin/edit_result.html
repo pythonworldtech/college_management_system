@@ -1,0 +1,90 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      #exampleCheck1{
+      margin-top: -10px;
+      }
+   </style>
+   <div class="page-wrapper">
+      <div class="content container-fluid">
+         <div class="page-header">
+            <div class="row align-items-center">
+               <div class="col">
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="admin_home">Dashboard</a></li>
+                     <li class="breadcrumb-item active">Update Student Result</li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-12">
+            <div class="card card-success">
+               <div class="card-header">
+                  <h3 class="card-title">Update Student Result Information</h3>
+               </div>
+                  <div class="card-body">
+                     {% if messages %}
+                     {% for message in messages %}
+                     <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5 text-center" {% endif %} >{{message}}</p>
+                     {% endfor %}
+                     {% endif %}
+                     {% if error %}
+                     <div class="alert alert-danger text-center" role="alert">
+                        {{error}}
+                     </div>
+                     {% endif %}
+                     <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                           {% for re in result %}
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>Subject</label>
+                                 <input disabled type="text" value="{{re.subject_id}}" name="internal_marks" class="form-control">
+                              </div>
+                           </div>
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>Session Year</label>
+                                 <input disabled type="text" value="{{re.session_id.session_start}} To {{re.session_id.session_start}}" name="internal_marks" class="form-control">
+                              </div>
+                           </div>
+                           <div class="col-12 col-sm-12">
+                              <div class="form-group">
+                                 <label>Student</label>
+                                 <input disabled type="text" value="{{re.student_id.addmission_no}} : &nbsp; {{re.student_id.user.first_name}} &nbsp; {{re.student_id.user.last_name}}" name="internal_marks" class="form-control">
+                              </div>
+                           </div>
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>Internal Marks</label>
+                                 <input type="text" value="{{re.internal_marks}}" name="internal_marks" class="form-control">
+                              </div>
+                           </div>
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>External Marks</label>
+                                 <input type="text" value="{{re.external_marks}}" name="external_marks" class="form-control">
+                              </div>
+                           </div>
+                           <div class="col-12">
+                              <button type="submit" class="btn btn-warning"><i class="fas fa-save"> Update Result </i></button>
+                           </div>
+                           {% endfor %}
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endblock main_content %}

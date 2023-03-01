@@ -1,0 +1,194 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <title>Student Management System | Manage Session</title>
+   <link rel="icon" href="{% static 'app/images/24.jpeg' %}">
+   <div class="page-wrapper">
+   <div class="content container-fluid">
+      <div class="page-header">
+         {% if messages %}
+         {% for message in messages %}
+         <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5 text-center" {% endif %} >{{message}}</p>
+         {% endfor %}
+         {% endif %}
+         {% if error %}
+         <div class="alert alert-danger text-center" role="alert">
+            {{error}}
+         </div>
+         {% endif %}
+         <div class="row align-items-center">
+            <div class="col">
+               <ul class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="admin_home">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Send Student Notification</li>
+               </ul>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+               View All Notification
+               </button>
+            </div>
+         </div>
+      </div>
+      {% if student %}
+      <div class="col-md-12">
+         <div class="card card-success">
+            <div class="card-header">
+               <h3 class="card-title">Student Notification</h3>
+            </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table table-hover table-center mb-0 datatable">
+                        <thead>
+                           <tr>
+                              <th>SR.No.</th>
+                              <th>Admission No.</th>
+                              <th>Profile Image</th>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Email</th>
+                              <th>Mobile</th>
+                              <th class="text-right">Action</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              {% for stf in student %}
+                              <td>{{forloop.counter}}</td>
+                              <td>{{stf.addmission_no}}</td>
+                              {% if stf.user.profile_pic %}
+                              <td><a href="{{stf.user.profile_pic.url}}"><img src="{{stf.user.profile_pic.url}}" alt="Profile Pic" height="100" width="100"></a></td>
+                              {% else %}
+                              <td><a href="{% static 'images/user.png' %}"><img src="{% static 'images/user.png' %}" alt="Profile Pic" height="100" width="100"></a></td>
+                              {% endif %}
+                              <td>{{stf.user.first_name}}</td>
+                              <td>{{stf.user.last_name}}</td>
+                              <td>{{stf.user.email}}</td>
+                              <td>{{stf.mobile_number}}</td>
+                              <td align="center">
+                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#sendnotification-{{forloop.counter}}">
+                                 Send Notification
+                                 </button>
+                              </td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% else %}
+      <br>
+      <h3 class="text-capitalize" style="text-align:center;">Sorry No Student Notification Found !!!</h3>
+      <br><br>
+      <div class="text-center">
+         <img src="{% static 'images/no.svg' %}" alt=""
+            class="img-fluid img-thumbnail w-25">
+      </div>
+      {% endif %}
+   </div>
+   <!-- Modal -->
+   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLongTitle">Student Notification</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            {% if notification %}
+            <div class="modal-body">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="card card-table">
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="table table-hover table-center mb-0 datatable">
+                                 <thead>
+                                    <tr>
+                                       <th>Sr No.</th>
+                                       <th>Admission No.</th>
+                                       <th>Student Name</th>
+                                       <th>Message</th>
+                                       <th>Status</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr>
+                                       {% for stf in notification %}
+                                       <td>{{forloop.counter}}</td>
+                                       <td>{{stf.student_id.addmission_no}}</td>
+                                       <td>{{stf.student_id.user.first_name}} &nbsp; {{stf.student_id.user.last_name}}</td>
+                                       <td>{{stf.message}}</td>
+                                       {% if stf.status == 0 %}
+                                       <td><span class="badge badge-danger">Unread</td>
+                                       </span>
+                                       {% else %}
+                                       <td><span class="badge badge-success">Read</td>
+                                       </span>
+                                       {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% else %}
+            <br>
+            <h3 class="text-capitalize" style="text-align:center;">Sorry No Student Message Found !!!</h3>
+            <br><br>
+            <div class="text-center">
+               <img src="{% static 'images/no.svg' %}" alt=""
+                  class="img-fluid img-thumbnail w-25">
+            </div>
+            {% endif %}
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Modal 2  -->
+   {% for i in student %}
+   <div class="modal fade" id="sendnotification-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLongTitle1">Send Student Notification To {{i.user.first_name}} {{i.user.last_name}}</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <form method="POST" action="admin_save_student_notification">
+                  {% csrf_token %}
+                  <div class="form-group">
+                     <label>Messages</label>
+                     <input name="message" type="text" class="form-control" placeholder="Write Messages">
+                     <input hidden name="student_id" value="{{i.user.id}}" type="text" class="form-control" placeholder="Write Messages">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Send</button>
+               </form>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endfor %}
+   {% endblock main_content %}

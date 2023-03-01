@@ -1,0 +1,90 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <div class="page-wrapper">
+   <div class="content container-fluid">
+      <div class="page-header">
+         {% if messages %}
+         {% for message in messages %}
+         <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5 text-center" {% endif %} >{{message}}</p>
+         {% endfor %}
+         {% endif %}
+         {% if error %}
+         <div class="alert alert-danger text-center" role="alert">
+            {{error}}
+         </div>
+         {% endif %}
+         <div class="row align-items-center">
+            <div class="col">
+               <ul class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="admin_home">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Manage Course</li>
+               </ul>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+               <a href="admin_add_course" class="btn btn-primary"><i class="fas fa-plus"> Add Course</i></a>
+            </div>
+         </div>
+      </div>
+      {% if course %}
+      <div class="col-md-12">
+         <div class="card card-success">
+            <div class="card-header">
+               <h3 class="card-title">Course Information</h3>
+            </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table table-hover table-center mb-0 datatable">
+                        <thead>
+                           <tr>
+                              <th>SR.No</th>
+                              <th>Course Code</th>
+                              <th>Course Name</th>
+                              <th class="text-right"></th>
+                              <th class="text-right">Action</th>
+                              <th class="text-right"></th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              {% for c in course %}
+                              <td>{{forloop.counter}}</td>
+                              <td>{{c.course_id}}</td>
+                              <td>{{c.course_name}}</td>
+                              {% if c.course_pic %}
+                              <td><a href="{{c.course_pic.url}}"><img src="{{c.course_pic.url}}" alt="Profile Pic" height="100" width="100"></a></td>
+                              {% else %}
+                              <td><img src="{% static 'images/user.png'%}" alt="Profile Pic" height="100" width="100"></td>
+                              {% endif %}
+                              <td align="center">                              
+                                 <a href="{% url 'admin_edit_course' c.id  %}" class="btn btn-warning" style="width: 50px;"><i class="fas fa-pen"></i></a>
+                              </td>
+                              <td><a href="{% url 'admin_delete_course' c.id  %}" class="btn btn-danger" style="width: 50px;" onclick="return confirm('Are You Sure you want To delete Course ?')"><i class="fas fa-trash"></i></a>
+                              </td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% else %}
+      <br>
+      <h3 class="text-capitalize" style="text-align:center;">Sorry No Course Found !!! </h3>
+      <br><br>
+      <div class="text-center">
+         <img src="{% static 'images/no.svg' %}" alt=""
+            class="img-fluid img-thumbnail w-25">
+      </div>
+      {% endif %}
+   </div>
+   {% endblock main_content %}

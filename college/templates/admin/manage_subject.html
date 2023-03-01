@@ -1,0 +1,89 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <div class="page-wrapper">
+   <div class="content container-fluid">
+      <div class="page-header">
+         {% if messages %}
+         {% for message in messages %}
+         <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5 text-center" {% endif %} >{{message}}</p>
+         {% endfor %}
+         {% endif %}
+         {% if error %}
+         <div class="alert alert-danger text-center" role="alert">
+            {{error}}
+         </div>
+         {% endif %}
+         <div class="row align-items-center">
+            <div class="col">
+               <ul class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="admin_home">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Manage Subject</li>
+               </ul>
+            </div>
+            <div class="col-auto text-right float-right ml-auto">
+               <a href="admin_add_subject" class="btn btn-primary"><i class="fas fa-plus"> Add Subject</i></a>
+            </div>
+         </div>
+      </div>
+      {% if subject %}
+      <div class="col-md-12">
+         <div class="card card-success">
+            <div class="card-header">
+               <h3 class="card-title">Subject Information</h3>
+            </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table table-hover table-center mb-0 datatable">
+                        <thead>
+                           <tr>
+                              <th>SR.No</th>
+                              <th>Subject Code</th>
+                              <th>Subject Name</th>
+                              <th>Course</th>
+                              <th>Staff Name</th>
+                              <th class="text-right">Action</th>
+                              <th class="text-right"></th>
+                              <th class="text-right"></th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              {% for sub in subject %}
+                              <td>{{forloop.counter}}</td>
+                              <td>{{sub.subject_id}}</td>
+                              <td>{{sub.subject_name}}</td>
+                              <td>{{sub.course}}</td>
+                              <td>{{sub.staff.user.first_name}} &nbsp; {{sub.staff.user.last_name}}</td>
+                              <td align="center">                              
+                                 <a href="{% url 'admin_edit_subject' sub.id  %}" class="btn btn-warning" style="width: 50px;"><i class="fas fa-pen"></i></a>
+                              </td>
+                              <td><a href="{% url 'admin_delete_subject' sub.id  %}" class="btn btn-danger" style="width: 50px;" onclick="return confirm('Are You Sure you want To delete Subject ?')"><i class="fas fa-trash"></i></a>
+                              </td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% else %}
+      <br>
+      <h3 class="text-capitalize" style="text-align:center;">Sorry No Subject Found !!!</h3>
+      <br><br>
+      <div class="text-center">
+         <img src="{% static 'images/no.svg' %}" alt=""
+            class="img-fluid img-thumbnail w-25">
+      </div>
+      {% endif %}
+   </div>
+   {% endblock main_content %}

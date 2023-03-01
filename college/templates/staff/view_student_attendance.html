@@ -1,0 +1,182 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'staff/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      .paywithrazorpay2{
+      margin-left: 100px;
+      }
+      .remark{
+      width: 350px;
+      }
+      .fees{
+      width: 100px;
+      }
+      .due_fees{
+      width: 100px;
+      }
+      .paid_fees{
+      width: 100px;
+      }
+      .admission_fees{
+      width: 100px;
+      }
+      .admission_no{
+      width: 100px;
+      }
+      .student_name{
+      width: 130px;
+      }
+      .course{
+      width: 250px;
+      }
+   </style>
+   <div class="page-wrapper">
+      <div class="content container-fluid">
+         <div class="page-header">
+            <div class="row align-items-center">
+               <div class="col">
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="staff_home">Dashboard</a></li>
+                     <li class="breadcrumb-item active">View Student Attendance</li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-12">
+            <div class="card card-success">
+               <div class="card-header">
+                  <h3 class="card-title">View Student Attendance Information</h3>
+               </div>
+               <div class="card-body">
+                  {% if action is None %}
+                  <form method="POST" action="?action=view_attendance">
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-12 col-sm-6">
+                           <div class="form-group">
+                              <label>Subject</label>
+                              <select class="form-control" name="subject_id" required>
+                                 <option>Select Subject</option>
+                                 {% for sub in subject %}
+                                 <option value="{{sub.id}}">{{sub.subject_name}}</option>
+                                 {% endfor %}
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                           <div class="form-group">
+                              <label>Session Year</label>
+                              <select class="form-control" name="session_id" required>
+                                 <option>Select Session Year</option>
+                                 {% for s in session %}
+                                 <option value="{{s.id}}">{{s.session_start}} To {{s.session_end}}</option>
+                                 {% endfor %}
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                           <div class="form-group">
+                              <label>Attendance Date</label>
+                              <div>
+                                 <input required type="date" name="attendance_date" class="form-control">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-12">
+                           <button type="submit" class="btn btn-primary"><i class="fas fa-search"> Show Attendance</i></button>
+                        </div>
+                     </div>
+                  </form>
+                  {% else %}
+                  <form>
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-12">
+                           <h5 class="form-title"><span>Attendance Information</span></h5>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                           <div class="form-group">
+                              <label>Subject</label>
+                              <select class="form-control" name="subject_id" required disabled>
+                                 <option value="{{get_subject.id}}">{{get_subject}}</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                           <div class="form-group">
+                              <label>Session Year</label>
+                              <select class="form-control" name="session_id" required disabled>
+                                 <option value="{{get_session.id}}">{{get_session.session_start}} &nbsp; To &nbsp; {{get_session.session_end}}</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                           <div class="form-group">
+                              <label>Attendance Date</label>
+                              <div>
+                                 <input required value="{{attendance_date}}" type="date" name="attendance_date" class="form-control" disabled>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     {% if attendance_report %}
+                     <div class="row">
+                        <div class="col-sm-12">
+                           <div class="card card-table">
+                              <div class="card-body">
+                                 <div class="table-responsive">
+                                    <table class="table table-hover table-center mb-0 datatable">
+                                       <thead>
+                                          <tr>
+                                             <th>SR.No</th>
+                                             <th>Admission No.</th>
+                                             <th>Full Name</th>
+                                             <th>Email</th>
+                                             <th>Mobile No.</th>
+                                             <th>Subject</th>
+                                             <th>Action</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr>
+                                             {% for c in attendance_report %}
+                                             <td>{{forloop.counter}}</td>
+                                             <td>{{c.student_id.addmission_no}}</td>
+                                             <td>{{c.student_id.user.first_name}} &nbsp; {{c.student_id.user.last_name}}</td>
+                                             <td>{{c.student_id.user.email}}</td>
+                                             <td>{{c.student_id.mobile}}</td>
+                                             <td>{{c.attendance_id}}</td>
+                                             <td><a href="{% url 'admin_delete_student_attendance' c.id  %}" class="btn btn-danger" style="width: 50px;" onclick="return confirm('Are You Sure you want To delete Student Attendance ?')"><i class="fas fa-trash"></i></a></td>
+                                          </tr>
+                                          {% endfor %}
+                                       </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     {% else %}
+                     <br>
+                     <h3 class="text-capitalize" style="text-align:center;">Sorry No Student Attendance Found !!!</h3>
+                     <br><br>
+                     <div class="text-center">
+                        <img src="{% static 'images/no.svg' %}" alt=""
+                           class="img-fluid img-thumbnail w-25">
+                     </div>
+                     {% endif %}
+               </div>
+            </div>
+         </div>
+         </form>
+         {% endif %}
+      </div>
+   </div>
+   {% endblock main_content %}

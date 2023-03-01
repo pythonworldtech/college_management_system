@@ -1,0 +1,71 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <div class="page-wrapper">
+      <div class="content container-fluid">
+         <div class="page-header">
+            <div class="row align-items-center">
+               <div class="col">
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="admin_home">Dashboard</a></li>
+                     <li class="breadcrumb-item active">Update Session</li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-12">
+            <div class="card card-success">
+               <div class="card-header">
+                  <h3 class="card-title">Update Session Information</h3>
+               </div>
+                  <div class="card-body">
+                     <form method="POST">
+                        {% csrf_token%}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5 text-center" {% endif %} >{{message}}</p>
+                        {% endfor %}
+                        {% endif %}
+                        {% if error %}
+                        <div class="alert alert-danger text-center" role="alert">
+                           {{error}}
+                        </div>
+                        {% endif %}
+                        {% for se in session %}
+                        <div class="row">
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>Session Start</label>
+                                 <div>
+                                    <input required type="date" value="{{se.session_start}}" name="session_start" class="form-control">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>Session End</label>
+                                 <div>
+                                    <input required type="date" value="{{se.session_end}}" name="session_end" class="form-control">
+                                 </div>
+                              </div>
+                           </div>
+                           {% endfor %}
+                           <div class="col-12">
+                              <button type="submit" class="btn btn-primary"><i class="fas fa-save"> Update Session </i></button>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endblock main_content %}

@@ -1,0 +1,99 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      .title{
+      font-family: 'Poppins', sans-serif;
+      font-weight: bolder;
+      font-size: large;
+      }
+      .info2{
+      margin-left: 30px;
+      font-size: large;
+      color: green;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      }
+   </style>
+   <div class="page-wrapper">
+      <div class="content container-fluid">
+         <div class="page-header">
+            <div class="row">
+               <div class="col-sm-12">
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="admin_home">Dashboard</a></li>
+                     <li class="breadcrumb-item active">Staff Details</li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="card">
+            <div class="card-body">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="about-info">
+                        {% for stf in staff %}
+                        <h4 class="text-center">About {{stf.user.first_name}} &nbsp;{{stf.user.last_name}}</h4>
+                        <div class="media mt-3">
+                           {% if stf.user.profile_pic %}
+                           <td><a href="{{stf.user.profile_pic.url}}"><img src="{{stf.user.profile_pic.url}}" alt="Profile Pic" height="300" width="400"></a></td>
+                           {% else %}
+                           <td><a href="{% static 'images/user.png' %}"><img src="{% static 'images/user.png' %}" alt="Profile Pic" height="300" width="400"></a></td>
+                           {% endif %}
+                           <div class="media-body">
+                              <ul>
+                                 <li>
+                                    <span class="title-span title">Staff ID : </span>
+                                    <span class="info-span info2">{{stf.stf_id}}</span>
+                                 </li>
+                                 <li>
+                                    <span class="title-span title">Full Name : </span>
+                                    <span class="info-span info2">{{stf.user.first_name}} &nbsp;{{stf.user.last_name}}</span>
+                                 </li>
+                                 <li>
+                                    <span class="title-span title">Mobile : </span>
+                                    <span class="info-span info2">+91 {{stf.mobile_number}}</span>
+                                 </li>
+                                 <li>
+                                    <span class="title-span title">Email : </span>
+                                    <span class="info-span info2">{{stf.user.email}}</span>
+                                 </li>
+                                 <li>
+                                    <span class="title-span title">Gender : </span>
+                                    <span class="info-span info2">{{stf.gender}}</span>
+                                 </li>
+                                 <li>
+                                    <span class="title-span title">DOB : </span>
+                                    <span class="info-span info2">{{stf.dob}}</span>
+                                 </li>
+                                 <li>
+                                    <span class="title-span title">Address : </span>
+                                    <span class="info-span info2">{{stf.address}}</span>
+                                 </li>
+                                 <li>
+                                    <span class="title-span title">Bank Account No. : </span>
+                                    <span class="info-span info2">{{stf.account_no}}</span>
+                                 </li>
+                                 <li>
+                                    <span class="title-span title">Bank IFSC Code : </span>
+                                    <span class="info-span info2">{{stf.ifsc_code}}</span>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                        {% endfor %}
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      </form>
+   </div>
+   {% endblock main_content %}

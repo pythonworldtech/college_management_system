@@ -1,0 +1,172 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <section class="content">
+      <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+         <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+               <div class="inner">
+                  <h3>{{student}}</h3>
+                  <p>Total Students</p>
+               </div>
+               <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+               </div>
+               <a href="admin_manage_student" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+         </div>
+         <!-- ./col -->
+         <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+               <div class="inner">
+                  <h3>{{staff}}</h3>
+                  <p>Total Staffs</p>
+               </div>
+               <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+               </div>
+               <a href="admin_manage_staff" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+         </div>
+         <!-- ./col -->
+         <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+               <div class="inner">
+                  <h3>{{course}}</h3>
+                  <p>Total Courses</p>
+               </div>
+               <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+               </div>
+               <a href="admin_manage_course" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+         </div>
+         <!-- ./col -->
+         <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+               <div class="inner">
+                  <h3>{{subject}}</h3>
+                  <p>Total Subjects</p>
+               </div>
+               <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+               </div>
+               <a href="admin_manage_subject" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-12 col-lg-6">
+            <div class="card card-chart">
+               <div class="card-header">
+                  <div class="row align-items-center">
+                     <div class="col-6">
+                        <h5 class="card-title">Staff & Student</h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="card-body">
+                  <div id="chart">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-12 col-lg-6">
+            <div class="card card-chart">
+               <div class="card-header">
+                  <div class="row align-items-center">
+                     <div class="col-6">
+                        <h5 class="card-title">Course & Subject</h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="card-body">
+                  <div id="chart2">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   {% endblock main_content %}
+   {% block custom_js %}
+   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   <script>
+      var options = {
+        series: [{{student}},{{staff}}],
+        chart: {
+          width: 380,
+          type: 'pie',
+        },
+        labels: ['Student', 'Staff'],
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+      };
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+      
+      
+      var options = {
+              series: [{{course}},{{subject}}],
+              chart: {
+              width: 380,
+              type: 'donut',
+            },
+            plotOptions: {
+              pie: {
+                startAngle: -90,
+                endAngle: 270
+              }
+            },
+            dataLabels: {
+              enabled: false
+            },
+            fill: {
+              type: 'gradient',
+            },
+            legend: {
+              formatter: function(val, opts) {
+                return val + " - " + opts.w.globals.series[opts.seriesIndex]
+              }
+            },
+            labels: ['Course', 'Subject'],
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200
+                },
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }]
+            };
+      
+            var chart = new ApexCharts(document.querySelector("#chart2"), options);
+            chart.render();
+          
+   </script>
+   {% endblock custom_js %}

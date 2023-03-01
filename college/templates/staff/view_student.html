@@ -1,0 +1,116 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'staff/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      .title{
+      font-family: 'Poppins', sans-serif;
+      font-weight: bolder;
+      font-size: large;
+      }
+      .info2{
+      margin-left: 30px;
+      font-size: large;
+      color: green;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      }
+   </style>
+   <div class="page-wrapper">
+   <div class="content container-fluid">
+   <div class="page-header">
+      <div class="row">
+         <div class="col-sm-12">
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="staff_home">Dashboard</a></li>
+               <li class="breadcrumb-item active">Student Details</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <div class="card">
+      <div class="card-body">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="about-info">
+                  {% for stu in student %}
+                  <h4 class="text-center">About {{stu.user.first_name}} &nbsp;{{stu.user.last_name}}</h4>
+                  <div class="media mt-3">
+                     {% if stu.user.profile_pic %}
+                     <td><a href="{{stu.user.profile_pic.url}}"><img src="{{stu.user.profile_pic.url}}" alt="Profile Pic" height="300" width="400"></a></td>
+                     {% else %}
+                     <td><a href="{% static 'images/user.png' %}"><img src="{% static 'images/user.png' %}" alt="Profile Pic" height="300" width="400"></a></td>
+                     {% endif %}
+                     <div class="media-body">
+                        <ul>
+                           <li>
+                              <span class="title-span title">Username : </span>
+                              <span class="info-span info2">{{stu.user}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Admission No. : </span>
+                              <span class="info-span info2">{{stu.addmission_no}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Full Name : </span>
+                              <span class="info-span info2">{{stu.user.first_name}} &nbsp;{{stu.user.last_name}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Mobile : </span>
+                              <span class="info-span info2">+91 {{stu.mobile}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Email : </span>
+                              <span class="info-span info2">{{stu.user.email}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Gender : </span>
+                              <span class="info-span info2">{{stu.gender}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">DOB : </span>
+                              <span class="info-span info2">{{stu.dob}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Course Name : </span>
+                              <span class="info-span info2">{{stu.course_id}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Session Year : </span>
+                              <span class="info-span info2">{{stu.session_year_id.session_start}} To {{stu.session_year_id.session_end}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Father's Name : </span>
+                              <span class="info-span info2">{{stu.father_name}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Mother's Name : </span>
+                              <span class="info-span info2">{{stu.mother_name}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Parent Contact No. : </span>
+                              <span class="info-span info2">{{stu.parent_mobile_no}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Address : </span>
+                              <span class="info-span info2">{{stu.address}}</span>
+                           </li>
+                           <li>
+                              <span class="title-span title">Admission Fees : </span>
+                              <span class="info-span info2">₹ {{stu.admission_fees}}</span>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+                  {% endfor %}
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endblock main_content %}

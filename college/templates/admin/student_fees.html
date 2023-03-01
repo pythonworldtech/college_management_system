@@ -1,0 +1,132 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      #exampleCheck1{
+      margin-top: -10px;
+      }
+      .fees{
+      background-color: skyblue;
+      }
+   </style>
+   <div class="page-wrapper">
+      <div class="content container-fluid">
+         <div class="page-header">
+            <div class="row align-items-center">
+               <div class="col">
+                  <h1 class="page-title text-center">Student Fees</h1>
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="students.html">Students</a></li>
+                     <li class="breadcrumb-item active">Student Fees</li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-sm-12">
+               <div class="card">
+                  <div class="card-body">
+                     {% if action is None %}
+                     <form method="POST" action="?action=student_fees">
+                        {% csrf_token %}
+                        <div class="row">
+                           <div class="col-12">
+                              <h5 class="form-title"><span>Student Fees Information</span></h5>
+                           </div>
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>Admission No.</label>
+                                 <input type="text" name="admission_no" class="form-control">
+                              </div>
+                           </div>
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>Date Of Birth</label>
+                                 <div>
+                                    <input required type="date" name="dob" class="form-control">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-12">
+                              <button type="submit" class="btn btn-primary">Fetch Student</button>
+                           </div>
+                        </div>
+                     </form>
+                     {% else %}
+                     <form method="POST" action="">
+                        {% csrf_token %}
+                        <div class="row fees">
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>Admission NO</label>
+                                 <input required value="{{admission_no}}" type="text" name="admission_no" class="form-control" disabled>
+                              </div>
+                           </div>
+                           <div class="col-12 col-sm-6">
+                              <div class="form-group">
+                                 <label>Date Of Birth</label>
+                                 <div>
+                                    <input required value="{{dob}}" type="date" name="dob" class="form-control" disabled>
+                                 </div>
+                              </div>
+                           </div>
+                           {% if student %}
+                           <div class="col-sm-12">
+                              <div class="card card-table">
+                                 <div class="card-body">
+                                    <div class="table-responsive">
+                                       <table class="table table-hover table-center mb-0 datatable">
+                                          <thead>
+                                             <tr>
+                                                <th>Admission No.</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Course</th>
+                                                <th>Admission Fees</th>
+                                                <th>Paid Fees</th>
+                                                <th>Due Fees</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                {% for st in student %}
+                                                <td>{{st.addmission_no}}</td>
+                                                <td>{{st.user.first_name}}</td>
+                                                <td>{{st.user.last_name}}</td>
+                                                <td>{{st.course_id}}</td>
+                                                <td>{{admission_fees}}</td>
+                                                <td>{{paid_fees}}</td>
+                                                <td>{{due_fees}}</td>
+                                             </tr>
+                                             {% endfor %}
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-12 mt-4">
+                           <button disabled type="submit" class="btn btn-primary">Proceed To Payment</button>
+                        </div>
+                        {% else %}
+                        <div class="col-sm-12">
+                           <h1 class="text-center mt-4">No Record Found !!</h1>
+                        </div>
+                        {% endif %}
+                  </div>
+               </div>
+               </form>
+               {% endif %}
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endblock main_content %}

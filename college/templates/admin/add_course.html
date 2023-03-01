@@ -1,0 +1,104 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      .paywithrazorpay2{
+      margin-left: 100px;
+      }
+      .remark{
+      width: 350px;
+      }
+      .fees{
+      width: 100px;
+      }
+      .due_fees{
+      width: 100px;
+      }
+      .paid_fees{
+      width: 100px;
+      }
+      .admission_fees{
+      width: 100px;
+      }
+      .admission_no{
+      width: 100px;
+      }
+      .student_name{
+      width: 130px;
+      }
+      .course{
+      width: 250px;
+      }
+   </style>
+   <div class="page-wrapper">
+   <div class="content container-fluid">
+      <div class="page-header">
+         <div class="row align-items-center">
+            <div class="col">
+               <ul class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="admin_home">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Add Course</li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-12">
+         <div class="card card-success">
+            <div class="card-header">
+               <h3 class="card-title">Course Information</h3>
+            </div>
+            <div class="card-body">
+               <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token%}
+                  {% if messages %}
+                  {% for message in messages %}
+                  <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5 text-center" {% endif %} >{{message}}</p>
+                  {% endfor %}
+                  {% endif %}
+                  {% if error %}
+                  <div class="alert alert-danger text-center" role="alert">
+                     {{error}}
+                  </div>
+                  {% endif %}
+                  <div class="row">
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                           <label>Course ID</label>
+                           <input readonly type="text" name="course_id" value="{{course_id}}" class="form-control">
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                           <label>Course Name</label>
+                           <input type="text" name="course_name" class="form-control">
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                           <label>Course Image</label>
+                           <input required type="file" name="course_pic" class="form-control">
+                        </div>
+                     </div>
+                     <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                           <label>Course Description</label>
+                           <textarea type="text" name="course_desc" class="form-control"></textarea>
+                        </div>
+                     </div>
+                     <div class="col-12">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"> Add Course</i></button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% endblock main_content %}

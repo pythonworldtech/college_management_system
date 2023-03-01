@@ -1,0 +1,114 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   <!DOCTYPE html>
+   {% load static %}
+   <html lang="en">
+      <head>
+         <meta charset="UTF-8" />
+         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+         <title>Fees Receipt</title>
+         <link rel="icon" href="{% static 'images/24.jpeg'%}">
+         <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            />
+         <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+      </head>
+      <style>
+         .download{
+         margin-left: 450px;
+         }
+         .text-danger{
+         font-weight: bolder;
+         }
+         body{
+         margin-top: 30px;
+         }
+      </style>
+      <body>
+         <div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 padding">
+            <div class="card" id="invoice">
+               <div class="card-header p-4">
+                  <div class="float-right">
+                     {% for re in receipt %}
+                     <h3 class="mb-0">Transaction No. &nbsp;:- {{re.transaction_no}}</h3>
+                     Date: {{re.created_date}}
+                  </div>
+               </div>
+               <div class="card-body">
+                  <div class="row mb-4">
+                     <div class="col-sm-6">
+                        <h3 class="text-dark mb-1">Python World</h3>
+                        <div>Press Colony, Anand-Nagar</div>
+                        <div>Bhopal,MadhyaPradesh</div>
+                        <div>Email: praveenku9452@gmail.com</div>
+                        <div>Phone No: 7459079980</div>
+                     </div>
+                  </div>
+                  <div class="table-responsive-sm">
+                     <table class="table table-striped">
+                        <thead>
+                           <tr>
+                              <th class="center">Sr No.</th>
+                              <th>Admission No.</th>
+                              <th>Student Name</th>
+                              <th class="right">Course</th>
+                              <th class="right">Payment ID</th>
+                              <th class="right">Payment Amt.</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td class="center">{{forloop.counter}}</td>
+                              <td class="left-strong">{{re.student_id.addmission_no}}</td>
+                              <td class="right">{{re.student_id.user.first_name}} {{re.student_id.user.last_name}}</td>
+                              <td class="center">{{re.student_id.course_id}}</td>
+                              <td class="center">{{re.payment_id}}</td>
+                              <td class="right">₹ {{re.paid_amount}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="row">
+                     <div class="col-lg-4 col-sm-5 ml-auto">
+                        <table class="table table-clear">
+                           <tbody>
+                              <tr>
+                                 <td class="left">
+                                    <strong class="text-dark">Total
+                                    </strong>
+                                 </td>
+                                 <td class="right text-danger">₹ {{re.paid_amount}}</td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        {% endfor %}
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <button class="btn btn-danger mt-3 btn-sm download" id="download">Download as Pdf</button>
+         </div>
+      </body>
+      <script>
+         document
+           .getElementById("download")
+           .addEventListener("click", function download() {
+             const element = document.getElementById("invoice");
+             //console.log(element)
+             var opt = {
+               filename: 'fees_receipt.pdf'
+             }
+             html2pdf()
+               .from(element)
+               .set(opt)
+               .save();
+           });
+      </script>
+   </html>

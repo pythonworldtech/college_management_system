@@ -1,0 +1,200 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <style>
+      .paywithrazorpay4{
+      margin-left: 100px;
+      }
+      .remark{
+      width: 350px;
+      }
+      .salary{
+      width: 100px;
+      }
+      .due_salary{
+      width: 100px;
+      }
+      .paid_salary{
+      width: 100px;
+      }
+      .salary{
+      width: 100px;
+      }
+      .staff_id{
+      width: 100px;
+      }
+      .staff_name{
+      width: 130px;
+      }
+      .salary_to_paid{
+      width: 100px;
+      }
+      .account_no{
+      width: 120px;
+      }
+      .ifsc{
+      width: 120px;
+      }
+   </style>
+   <div class="page-wrapper">
+   <div class="content container-fluid">
+   <div class="page-header">
+      <div class="row align-items-center">
+         <div class="col">
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="admin_home">Dashboard</a></li>
+               <li class="breadcrumb-item active">View Staff Salary</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-12">
+      <div class="card card-success">
+         <div class="card-header">
+            <h3 class="card-title">View Staff Salary Information</h3>
+         </div>
+   <div class="card-body">
+   {% if action is None %}
+   <form method="POST" action="?action=view_staff_salary">
+      {% csrf_token %}
+      <div class="row">
+         <div class="col-12 col-sm-6">
+            <div class="form-group">
+               <label>Staff ID</label>
+               <input required class="form-control" name="staff_id" placeholder="Enter Staff ID">
+            </div>
+         </div>
+         <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search Staff</button>
+         </div>
+      </div>
+   </form>
+   {% else %}
+   <form method="POST" action="?action=view_salary">
+      {% csrf_token %}
+      <div class="row">
+         <div class="col-12 col-sm-6">
+            <div class="form-group">
+               <label>Staff ID</label>
+               <input readonly value="{{staff_id}}" class="form-control" name="staff_id" placeholder="Enter Staff ID">
+            </div>
+         </div>
+         {% if salary %}
+         <div class="col-md-12">
+            <div class="card card-danger">
+               <div class="card-header">
+                  <h3 class="card-title">Staff Salary Information</h3>
+               </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table">
+                        <thead class="thead-light">
+                           <tr>
+                              <th>Staff ID</th>
+                              <th>Full Name</th>
+                              <th>Account No.</th>
+                              <th>IFSC Code</th>
+                              <th>Salary</th>
+                              <th>Paid Salary</th>
+                              <th>Due Salary</th>
+                              <th>Amount To Paid</th>
+                           </tr>
+                        </thead>
+                        {% for sal in salary %}
+                        <tr>
+   <form>
+   {% csrf_token %}
+   <td><input hidden class="stf_id" name="stf_id" type="text" value="{{ sal.id }}"><input class="staff_id" name="staff_id" readonly type="text" value="{{ sal.stf_id }}"></td>
+   <td><input class="staff_name" name="staff_name" readonly type="text" value="{{sal.user.first_name}} {{sal.user.last_name}}"></td>
+   <td><input class="account_no" name="account_no" readonly type="text" value="{{sal.account_no}}"></td>
+   <td><input class="ifsc" name="ifsc" readonly type="text" value="{{sal.ifsc_code}}"></td>
+   <td><input class="salary" name="salary" readonly type="text" value="{{ sal.salary }}"></td>
+   <td><input class="paid_salary" name="paid_salary" readonly type="text" value="{{ sal.paid_salary }}">
+   <td><input class="due_salary" name="due_salary" readonly type="text" value="{{ due }}">
+   <td><input class="salary_to_paid" name="salary_to_paid" type="text"></td></td>
+   </tr>
+   </form>
+   {% endfor %}
+   </table>
+   </div>
+   <textarea class="mt-4 remark" name="remark" placeholder="Remark"></textarea>
+   <button id="rzp-button1" type="button" class="btn btn-primary paywithrazorpay4 w-10 mt-2">Proceed For Payment</button>
+   </div>
+   </div>
+   </div>
+   </div>
+   {% else %}
+   <br>
+   <h3 class="text-capitalize" style="text-align:center;">Sorry No Salary Record Found !!!</h3>
+   <br><br>
+   <div class="text-center">
+      <img src="{% static 'images/no.svg' %}" alt=""
+         class="img-fluid img-thumbnail w-25">
+   </div>
+   {% endif %}
+   {% if receipt %}
+   <div class="row">
+      <div class="col-md-12">
+         <div class="card card-success">
+            <div class="card-header">
+               <h3 class="card-title">Salary History</h3>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <table class="table">
+                     <thead class="thead-light">
+                        <tr>
+                           <th>Sr.No.</th>
+                           <th>View Receipt</th>
+                           <th>Transaction No.</th>
+                           <th>Full Name</th>
+                           <th>Account No.</th>
+                           <th>IFSC Code</th>
+                           <th>Remark</th>
+                           <th>Paid Amount</th>
+                           <th>Payment ID</th>
+                           <th>Payment Date</th>
+                        </tr>
+                     </thead>
+                     {% for re in receipt %}
+                     <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'admin_staff_salary_receipt' re.id %}" class="btn btn-info"><i class="fas fa-download"></i></a></td>
+                        <td>{{ re.transaction_no }}</td>
+                        <td>{{ re.staff_id.user.first_name }} {{ re.staff_id.user.last_name }}</td>
+                        <td>{{ re.staff_id.account_no }}</td>
+                        <td>{{ re.staff_id.ifsc_code }}</td>
+                        <td>{{re.remark}}</td>
+                        <td>₹ {{re.salary_paid}}</td>
+                        <td>{{re.payment_id}}</td>
+                        <td>{{re.created_date}}</td>
+                     </tr>
+                     {% endfor %}
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% else %}
+   <br>
+   <h3 class="text-capitalize" style="text-align:center;">Sorry No Salary History Found !!!</h3>
+   <br><br>
+   <div class="text-center">
+      <img src="{% static 'images/no.svg' %}" alt=""
+         class="img-fluid img-thumbnail w-25">
+   </div>
+   {% endif %}
+   {% endif %}
+   {% endblock main_content %}
+   {% block scripts %}
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+   {% endblock scripts %}

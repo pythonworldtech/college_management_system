@@ -1,0 +1,69 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'admin/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <div class="page-wrapper">
+   <div class="content container-fluid">
+   <div class="page-header">
+      <div class="row align-items-center">
+         <div class="col">
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="admin_home">Dashboard</a></li>
+               <li class="breadcrumb-item active">View Contact Details</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   {% if contact %}
+   <div class="col-md-12">
+      <div class="card card-success">
+         <div class="card-header">
+            <h3 class="card-title">View Contact Information</h3>
+         </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th>Sr.No.</th>
+                           <th>Reference No.</th>
+                           <th>Full Name</th>
+                           <th>Email</th>
+                           <th>Phone No.</th>
+                           <th>Message</th>
+                        </tr>
+                     </thead>
+                     {% for co in contact %}
+                     <tbody>
+                        <tr>
+                           <td>{{forloop.counter}}</td>
+                           <td>{{ co.reference_no}}</td>
+                           <td>{{ co.full_name }}</td>
+                           <td>{{ co.email }}</td>
+                           <td>{{ co.phone }}</td>
+                           <td>{{ co.message }}</td>
+                        </tr>
+                     </tbody>
+                     {% endfor %}
+                  </table>
+               </div>
+            </div>
+         </div>
+         {% else %}
+         <br>
+         <h3 class="text-capitalize" style="text-align:center;">Sorry No Contact Request Found !!!</h3>
+         <br><br>
+         <div class="text-center">
+            <img src="{% static 'images/no.svg' %}" alt=""
+               class="img-fluid img-thumbnail w-25">
+         </div>
+         {% endif %}
+      </div>
+   </div>
+   {% endblock main_content %}

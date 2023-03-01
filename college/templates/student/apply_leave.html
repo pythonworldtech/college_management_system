@@ -1,0 +1,109 @@
+<!--
+   Made By -: Python World
+   Youtube -: www.youtube.com/pythonworldtech
+   website - :www.pythonworldtech.in
+   email - :pythonworld@gmail.com
+   Copyright © 2022 Python World
+   -->
+   {% extends 'student/bases.html' %}
+   {% block main_content %}
+   {% load static %}
+   <div class="page-header">
+      <div class="row align-items-center">
+         <div class="col">
+            <ul class="breadcrumb">
+               <li class="breadcrumb-item"><a href="student_home">Dashboard</a></li>
+               <li class="breadcrumb-item active">Apply For Leave</li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   {% if messages %}
+   {% for message in messages %}
+   <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5 text-center" {% endif %} >{{message}}</p>
+   {% endfor %}
+   {% endif %}
+   {% if error %}
+   <div class="alert alert-danger text-center" role="alert">
+      {{error}}
+   </div>
+   {% endif %}
+   <section class="content">
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="card card-primary">
+                  <div class="card-header">
+                     <h3 class="card-title">Apply For Leave</h3>
+                  </div>
+                  <form method="POST" action="student_save_leave">
+                     {% csrf_token %}
+                     <div class="card-body">
+                        <div class="form-group">
+                           <label>Leave Date </label>
+                           <input required type="date" name="leave_date" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                           <label>Leave Reason </label>
+                           <textarea required name="leave_message" class="form-control" rows="6" placeholder="Leave Messge"></textarea>
+                        </div>
+                     </div>
+                     <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Apply for Leave</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+         {% if leave %}
+         <div class="row">
+            <div class="col-md-12">
+               <div class="card card-warning">
+                  <div class="card-header">
+                     <h3 class="card-title">Leave Apply History</h3>
+                  </div>
+                  <div class="card-body">
+                     <div class="table-responsive">
+                        <table class="table">
+                           <thead class="thead-light">
+                              <tr>
+                                 <th>Sr.No.</th>
+                                 <th>Leave Date</th>
+                                 <th>Leave Message</th>
+                                 <th>Status</th>
+                              </tr>
+                           </thead>
+                           {% for leave in leave %}
+                           <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ leave.date }}</td>
+                              <td>{{ leave.message }}</td>
+                              <td>
+                                 {% if leave.status == 1 %}
+                                 <span class="alert alert-success">Approved</span>
+                                 {% elif leave.status == 2 %}
+                                 <span class="alert alert-danger">Rejected</span>
+                                 {% else %}
+                                 <span class="alert alert-warning">Pending</span>
+                                 {% endif %}
+                              </td>
+                           </tr>
+                           {% endfor %}
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         {% else %}
+         <br>
+         <h3 class="text-capitalize" style="text-align:center;">Sorry No Leave Record Found !!!</h3>
+         <br><br>
+         <div class="text-center">
+            <img src="{% static 'images/no.svg' %}" alt=""
+               class="img-fluid img-thumbnail w-25">
+         </div>
+         {% endif %}
+      </div>
+   </section>
+   {% endblock main_content %}
